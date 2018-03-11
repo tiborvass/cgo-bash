@@ -1,8 +1,21 @@
 diff --git a/shell.c b/shell.c
-index 6693f85..0ca96a0 100644
+index 6693f85..d4626a0 100644
 --- a/shell.c
 +++ b/shell.c
-@@ -318,12 +318,12 @@ _cygwin32_check_tmp ()
+@@ -102,6 +102,12 @@ extern int gnu_error_format;
+ extern char *primary_prompt, *secondary_prompt;
+ extern char *this_command_name;
+ 
++jmp_buf exit_catch;
++
++void catch_exit(int status, void *arg) {
++	longjmp(exit_catch, status);
++}
++
+ /* Non-zero means that this shell has already been run; i.e. you should
+    call shell_reinitialize () if you need to start afresh. */
+ int shell_initialized = 0;
+@@ -318,12 +324,12 @@ _cygwin32_check_tmp ()
  #if defined (NO_MAIN_ENV_ARG)
  /* systems without third argument to main() */
  int
@@ -17,3 +30,14 @@ index 6693f85..0ca96a0 100644
       int argc;
       char **argv, **env;
  #endif /* !NO_MAIN_ENV_ARG */
+@@ -350,6 +356,10 @@ main (argc, argv, env)
+   USE_VAR(saverst);
+ #endif
+ 
++  code = setjmp(exit_catch);
++  if (code) return code;
++  on_exit(catch_exit, 0);
++
+   /* Catch early SIGINTs. */
+   code = setjmp (top_level);
+   if (code)
