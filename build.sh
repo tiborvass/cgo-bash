@@ -4,11 +4,13 @@ VERSION="$1"
 [ -z "$VERSION" ] && echo "build.sh: must specify bash version to download" && exit 1
 
 bashsrc="bash-${VERSION}"
-# https://ftp.gnu.org/gnu/bash/
 archive="$bashsrc.tar.gz"
 shasum="$archive.sha256"
 
-[ ! -f "$archive" ] && echo "need to download $archive" && exit 1
+if [ ! -f "$archive" ]; then
+	wget "https://ftp.gnu.org/gnu/bash/$archive"
+fi
+
 shasum -c "$shasum" || exit 1
 if [ ! -d "$bashsrc" ]; then
 	(
