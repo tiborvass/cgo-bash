@@ -1,0 +1,28 @@
+diff --git a/main.c b/main.c
+new file mode 100644
+index 0000000..63bd10a
+--- /dev/null
++++ b/main.c
+@@ -0,0 +1,22 @@
++#include "config.h"
++
++#if defined (NO_MAIN_ENV_ARG)
++/* systems without third argument to main() */
++extern int Main(int argc, char **argv);
++int
++main (argc, argv)
++     int argc;
++     char **argv;
++{
++	return Main(argc, argv);
++}
++#else /* !NO_MAIN_ENV_ARG */
++extern int Main(int argc, char **argv, char **env);
++int
++main (argc, argv, env)
++     int argc;
++     char **argv, **env;
++{
++	return Main(argc, argv, env);
++}
++#endif /* !NO_MAIN_ENV_ARG */

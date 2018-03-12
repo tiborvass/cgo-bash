@@ -1,0 +1,24 @@
+diff --git a/builtins/common.c b/builtins/common.c
+index 89c6a87..7a805c5 100644
+--- a/builtins/common.c
++++ b/builtins/common.c
+@@ -71,6 +71,8 @@ extern int posixly_correct;
+ extern char *this_command_name, *shell_name;
+ extern char *bash_getcwd_errstr;
+ 
++struct builtin* (*external_lookup_builtin)(char*);
++
+ /* Used by some builtins and the mainline code. */
+ sh_builtin_func_t *last_shell_builtin = (sh_builtin_func_t *)NULL;
+ sh_builtin_func_t *this_shell_builtin = (sh_builtin_func_t *)NULL;
+@@ -770,6 +772,10 @@ find_shell_builtin (name)
+      char *name;
+ {
+   current_builtin = builtin_address_internal (name, 0);
++  if (current_builtin) return current_builtin->function;
++  if (external_lookup_builtin != NULL) {
++    current_builtin = (*external_lookup_builtin)(name);
++  }
+   return (current_builtin ? current_builtin->function : (sh_builtin_func_t *)NULL);
+ }
+ 

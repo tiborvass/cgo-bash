@@ -1,0 +1,35 @@
+diff --git a/Makefile.in b/Makefile.in
+index b5339b7..c2d2175 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -435,6 +435,8 @@ OBJECTS	 = shell.o eval.o y.tab.o general.o make_cmd.o print_cmd.o $(GLOBO) \
+ 	   bashline.o $(SIGLIST_O) list.o stringlib.o locale.o findcmd.o redir.o \
+ 	   pcomplete.o pcomplib.o syntax.o xmalloc.o $(SIGNAMES_O)
+ 
++MAIN_OBJECTS = main.o $(OBJECTS)
++
+ # Where the source code of the shell builtins resides.
+ BUILTIN_SRCDIR=$(srcdir)/builtins
+ DEFSRC=$(BUILTIN_SRCDIR)
+@@ -518,9 +520,19 @@ CREATED_MAKEFILES = Makefile builtins/Makefile doc/Makefile \
+ .made: $(Program) bashbug
+ 	@echo "$(Program) last made for a $(Machine) running $(OS)" >.made
+ 
+-$(Program):  .build $(OBJECTS) $(BUILTINS_DEP) $(LIBDEP)
++ldflags:
++	@echo libbash.a $(BUILTINS_LDFLAGS) $(LIBRARY_LDFLAGS) $(LIBS)
++
++static: .build libbash.a $(BUILTINS_DEP) $(LIBDEP)
++
++libbash.a: $(OBJECTS)
++	rm -f $@
++	ar crU $@ $^
++
++
++$(Program):  .build $(MAIN_OBJECTS) $(BUILTINS_DEP) $(LIBDEP)
+ 	$(RM) $@
+-	$(PURIFY) $(CC) $(BUILTINS_LDFLAGS) $(LIBRARY_LDFLAGS) $(LDFLAGS) -o $(Program) $(OBJECTS) $(LIBS)
++	$(PURIFY) $(CC) $(BUILTINS_LDFLAGS) $(LIBRARY_LDFLAGS) $(LDFLAGS) -o $(Program) $(MAIN_OBJECTS) $(LIBS)
+ 	ls -l $(Program)
+ 	-$(SIZE) $(Program)
+ 

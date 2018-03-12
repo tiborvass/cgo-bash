@@ -1,0 +1,19 @@
+diff --git a/shell.c b/shell.c
+index 6693f85..0ca96a0 100644
+--- a/shell.c
++++ b/shell.c
+@@ -318,12 +318,12 @@ _cygwin32_check_tmp ()
+ #if defined (NO_MAIN_ENV_ARG)
+ /* systems without third argument to main() */
+ int
+-main (argc, argv)
++Main (argc, argv)
+      int argc;
+      char **argv;
+ #else /* !NO_MAIN_ENV_ARG */
+ int
+-main (argc, argv, env)
++Main (argc, argv, env)
+      int argc;
+      char **argv, **env;
+ #endif /* !NO_MAIN_ENV_ARG */

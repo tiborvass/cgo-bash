@@ -1,0 +1,13 @@
+diff --git a/support/config.guess b/support/config.guess
+index 6d90d6f..557436e 100755
+--- a/support/config.guess
++++ b/support/config.guess
+@@ -1149,7 +1149,7 @@ EOF
+ 	echo ${UNAME_MACHINE}-apple-rhapsody${UNAME_RELEASE}
+ 	exit 0 ;;
+     *:Darwin:*:*)
+-	echo `uname -p`-apple-darwin${UNAME_RELEASE}
++	echo `uname -m`-apple-darwin${UNAME_RELEASE}
+ 	exit 0 ;;
+     *:procnto*:*:* | *:QNX:[0123456789]*:*)
+ 	UNAME_PROCESSOR=`uname -p`
