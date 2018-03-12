@@ -1,7 +1,7 @@
-// Package bash wraps a patched version of bash that has hooks to call user-defined Go functions as shell builtins.
 package bash
 
 //go:generate bash build.sh 3.2.57
+//go:generate bash doc.sh
 
 //#include "bash.h"
 import "C"

@@ -2,45 +2,24 @@
 
 ## Install
 
-```sh
+In order to install this package, you need to run go generate first:
+```
 $ go get -d github.com/tiborvass/cgo-bash
 $ cd $GOPATH/src/github.com/tiborvass/cgo-bash
 $ go generate # downloads, patches, and compiles bash
 $ go install
 ```
-
-## Usage
-
-example.go:
-```Go
-package main
-
-import (
-	"fmt"
-	bash "github.com/tiborvass/cgo-bash"
-)
-
-func init() {
-	bash.Register("hello", hello)
-}
-
-func hello(args ...string) (status int) {
-	fmt.Printf("Hello from Go! args=%v\n", args)
-	return 0
-}
-
-func main() {
-	os.Exit(bash.Main(os.Args, os.Environ()))
-}
+If needed, you can compile it inside a Docker container:
+```
+$ docker build -t cgo-bash .
+$ docker run -it -v $(pwd):/go/src/github.com/tiborvass/cgo-bash cgo-bash bash
+# go generate
+# go install
 ```
 
-```sh
-$ go run example.go
-example-3.2# hello
-Hello from Go! args=[]
-example-3.2# hello world
-Hello from Go! args=[world]
-```
+## Usage & Documentation
+
+[Godoc documentation](https://godoc.org/github.com/tiborvass/cgo-bash)
 
 ### Why?
 
