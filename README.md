@@ -20,6 +20,7 @@ $ docker run -it -v $(pwd):/go/src/github.com/tiborvass/cgo-bash cgo-bash bash
 ## Usage & Documentation
 
 [Godoc documentation](https://godoc.org/github.com/tiborvass/cgo-bash)
+[Example](https://godoc.org/github.com/tiborvass/cgo-bash#example-Register)
 
 ### Why?
 
